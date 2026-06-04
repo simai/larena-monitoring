@@ -1,0 +1,34 @@
+{
+  "schema": "larena.evidence_file_map.v1",
+  "package": "larena/monitoring",
+  "batch": "ai-mcp-automation/batch-1/monitoring-current",
+  "contract_files": [
+    "src/Contracts/HealthCheckDescriptor.php",
+    "src/Contracts/HealthStatus.php",
+    "src/Contracts/IncidentRecord.php",
+    "src/Contracts/MetricDescriptor.php",
+    "src/Contracts/MetricSample.php",
+    "src/Contracts/MonitoringDashboardSnapshot.php",
+    "src/Contracts/MonitoringGateway.php",
+    "src/Contracts/RetentionPolicy.php",
+    "src/Enums/HealthState.php",
+    "src/Enums/IncidentState.php",
+    "src/Enums/MetricType.php",
+    "src/Enums/Severity.php"
+  ],
+  "test_files": [
+    "tests/Unit/MonitoringContractTest.php",
+    "tests/Unit/MonitoringFailsClosedTest.php"
+  ],
+  "evidence_files": [
+    "docs/project-management/evidence/ai-mcp-automation/batch-1/monitoring-current/README.md",
+    "docs/project-management/evidence/ai-mcp-automation/batch-1/monitoring-current/implementation-summary.md",
+    "docs/project-management/evidence/ai-mcp-automation/batch-1/monitoring-current/tests.md",
+    "docs/project-management/evidence/ai-mcp-automation/batch-1/monitoring-current/smoke.md",
+    "docs/project-management/evidence/ai-mcp-automation/batch-1/monitoring-current/file-map.json",
+    "docs/project-management/evidence/ai-mcp-automation/batch-1/monitoring-current/deviations.json",
+    "docs/project-management/evidence/ai-mcp-automation/batch-1/monitoring-current/graph-sync-proposal.json",
+    "docs/project-management/evidence/ai-mcp-automation/batch-1/monitoring-current/independent-review.md",
+    "docs/project-management/evidence/ai-mcp-automation/batch-1/monitoring-current/code-review-feedback.md"
+  ]
+}

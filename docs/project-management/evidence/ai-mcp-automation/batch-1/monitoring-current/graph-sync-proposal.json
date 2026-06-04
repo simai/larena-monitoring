@@ -1,0 +1,28 @@
+{
+  "schema": "larena.graph_sync_proposal.v1",
+  "package": "larena/monitoring",
+  "batch": "ai-mcp-automation/batch-1/monitoring-current",
+  "canonical_update_allowed": false,
+  "canonical_update_requested": false,
+  "source_launch_record": "specs/implementation-planning/launch-records/monitoring-batch-1-contract-skeletons-current.json",
+  "implemented_features": [
+    "monitoring.health_checks",
+    "monitoring.probe_registry",
+    "monitoring.metrics",
+    "monitoring.retention_aggregation_policy",
+    "monitoring.incidents",
+    "monitoring.admin_dashboard"
+  ],
+  "proposal": {
+    "type": "implementation_evidence_only",
+    "summary": "Record that monitoring batch 1 contract skeletons implement interface-first health, metric, retention and incident boundaries without production monitoring runtime.",
+    "requires_graph_change": false
+  },
+  "future_considerations": [
+    "Define monitoring.yaml schema examples before probe registry runtime.",
+    "Define metric storage and aggregation strategy before metric runtime.",
+    "Define retention cleanup policy before storage runtime.",
+    "Define incident lifecycle workflow before incident runtime.",
+    "Define admin dashboard DTOs before admin surfaces."
+  ]
+}

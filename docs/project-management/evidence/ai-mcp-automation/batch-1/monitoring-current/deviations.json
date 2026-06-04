@@ -1,0 +1,14 @@
+{
+  "schema": "larena.evidence_deviations.v1",
+  "package": "larena/monitoring",
+  "batch": "ai-mcp-automation/batch-1/monitoring-current",
+  "deviations": [],
+  "out_of_scope_confirmed": [
+    "No probe runner runtime was implemented.",
+    "No metric storage runtime was implemented.",
+    "No incident workflow runtime was implemented.",
+    "No alert delivery runtime was implemented.",
+    "No external observability export was implemented.",
+    "No persistence, admin UI, routes or migrations were implemented."
+  ]
+}

@@ -2,4 +2,25 @@
 
 declare(strict_types=1);
 
-echo "Larena Monitoring clean pre-codegen baseline test command passed; no package implementation code has started.\n";
+require __DIR__ . '/../vendor/autoload.php';
+
+$tests = [];
+foreach (['tests/Unit'] as $path) {
+    if (!is_dir($path)) {
+        continue;
+    }
+
+    $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
+    foreach ($iterator as $file) {
+        if ($file->isFile() && $file->getExtension() === 'php') {
+            $tests[] = $file->getPathname();
+        }
+    }
+}
+
+sort($tests);
+foreach ($tests as $test) {
+    require $test;
+}
+
+echo 'Larena Monitoring contract tests passed: ' . count($tests) . " file(s).\n";
