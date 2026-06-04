@@ -1,0 +1,11 @@
+{
+  "schema": "larena.package_specs_reference.v1",
+  "package": "larena/monitoring",
+  "specs_repo": "simai/larena-specs",
+  "specs_commit": "757a99ffaa351db55b29bb9ac6d7eb4a18d8e23c",
+  "package_spec": "specs/packages/monitoring/package.json",
+  "package_dna": "specs/packages/monitoring/dna.json",
+  "features_index": "specs/packages/monitoring/features.json",
+  "canonical_update_allowed": false,
+  "graph_sync_proposal_required": true
+}

@@ -1,0 +1,33 @@
+{
+  "schema": "larena.package_reset_file_map.v1",
+  "package": "larena/monitoring",
+  "baseline_files": [
+    ".env.example",
+    ".githooks/pre-commit",
+    ".githooks/pre-push",
+    ".github/workflows/larena-package-ci.yml",
+    ".gitignore",
+    ".larena/launch-context.json",
+    ".larena/spec-ref.json",
+    "LICENSE",
+    "README.md",
+    "composer.json",
+    "composer.lock",
+    "docs/project-management/evidence/ai-mcp-automation/batch-0/monitoring-clean-baseline/README.md",
+    "docs/project-management/evidence/ai-mcp-automation/batch-0/monitoring-clean-baseline/deviations.json",
+    "docs/project-management/evidence/ai-mcp-automation/batch-0/monitoring-clean-baseline/file-map.json",
+    "docs/project-management/evidence/ai-mcp-automation/batch-0/monitoring-clean-baseline/graph-sync-proposal.json",
+    "docs/project-management/evidence/ai-mcp-automation/batch-0/monitoring-clean-baseline/implementation-summary.md",
+    "docs/project-management/evidence/ai-mcp-automation/batch-0/monitoring-clean-baseline/independent-review.md",
+    "docs/project-management/evidence/ai-mcp-automation/batch-0/monitoring-clean-baseline/smoke.md",
+    "docs/project-management/evidence/ai-mcp-automation/batch-0/monitoring-clean-baseline/tests.md",
+    "module.yaml",
+    "phpstan.neon.dist",
+    "scripts/analyse.php",
+    "scripts/check-evidence.php",
+    "scripts/lint.php",
+    "scripts/test-placeholder.php",
+    "scripts/validate-larena-package.php",
+    "tools/larena-scope-check.php"
+  ]
+}
