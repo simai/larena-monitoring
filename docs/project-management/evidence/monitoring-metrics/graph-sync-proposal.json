@@ -1,0 +1,9 @@
+{
+  "package": "larena/monitoring",
+  "canonical_update_allowed": false,
+  "features": [
+    "monitoring.metrics",
+    "monitoring.retention_aggregation_policy"
+  ],
+  "proposal": "Mark monitoring.metrics and monitoring.retention_aggregation_policy as having a runtime: declared metrics in package monitoring.yaml, guarded buffered recording, minute/hour/day rollups, raw 7 days / rollups 90 days retention, metrics report with verdicts."
+}

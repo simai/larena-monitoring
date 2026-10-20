@@ -1,0 +1,28 @@
+{
+  "deviations": [
+    {
+      "item": "rollup column window",
+      "decision": "named period (m/h/d): window is a reserved word in MySQL 8"
+    },
+    {
+      "item": "common tag keys",
+      "decision": "reason is a common tag key besides package, subsystem, operation and outcome: measure() records the exception class code under it"
+    },
+    {
+      "item": "minute rollups retention",
+      "decision": "minute rollups follow the raw retention (7 days); hour and day rollups keep 90 days"
+    },
+    {
+      "item": "report p50 and p95",
+      "decision": "count-weighted mean of bucket p50 and p95 values: exact percentiles over a window are not kept"
+    },
+    {
+      "item": "access operation registration",
+      "decision": "monitoring.dashboard.read is registered into larena/access by class name (AccessOperationRegistrar) when the registry is bound; larena/access is not listed even in require-dev because the package validator and forbidden_behavior dependency_on_other_larena_packages refuse any larena/* entry"
+    },
+    {
+      "item": "operation labels location",
+      "decision": "labels live in lang/{ru,en}/operations.php (namespace larena-monitoring): resources/* is a forbidden path for this launch"
+    }
+  ]
+}

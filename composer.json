@@ -10,7 +10,11 @@
     }
   ],
   "require": {
-    "php": "^8.3"
+    "illuminate/console": "^13.0",
+    "illuminate/database": "^13.0",
+    "illuminate/support": "^13.0",
+    "php": "^8.3",
+    "symfony/yaml": "^7.4|^8.0"
   },
   "autoload": {
     "psr-4": {
@@ -23,13 +27,15 @@
     }
   },
   "require-dev": {
+    "laravel/framework": "^13.0",
+    "orchestra/testbench": "^11.0",
     "phpstan/phpstan": "^2.0"
   },
   "scripts": {
-    "test": "php scripts/test-placeholder.php",
+    "test": "php scripts/test-placeholder.php && php vendor/bin/phpunit tests/Unit/Metrics --colors=never && php vendor/bin/phpunit tests/Feature --colors=never",
     "test:unit": "php scripts/test-placeholder.php",
     "lint": "php scripts/lint.php",
-    "analyse": "php scripts/analyse.php",
+    "analyse": "php vendor/bin/phpstan analyse --configuration=phpstan.neon.dist --no-progress --memory-limit=512M",
     "validate:larena": "php scripts/validate-larena-package.php",
     "evidence:check": "php scripts/check-evidence.php",
     "scope:check": "php tools/larena-scope-check.php",
@@ -44,8 +50,18 @@
   },
   "config": {
     "sort-packages": true,
-    "allow-plugins": {}
+    "allow-plugins": {},
+    "platform": {
+      "php": "8.3.31"
+    }
   },
   "minimum-stability": "stable",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Larena\\Monitoring\\Providers\\MonitoringServiceProvider"
+      ]
+    }
+  }
 }

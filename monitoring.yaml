@@ -1,0 +1,9 @@
+# Metrics declared by larena/monitoring itself. Other packages declare theirs in their own monitoring.yaml
+# and register it with MetricCatalog::register() or the larena-monitoring.catalogs config list.
+metrics:
+  monitoring.dropped:
+    type: counter
+    retention: { raw: 7d, aggregate: 90d }
+  monitoring.write_failed:
+    type: counter
+    retention: { raw: 7d, aggregate: 90d }

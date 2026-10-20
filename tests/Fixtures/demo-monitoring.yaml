@@ -1,0 +1,32 @@
+metrics:
+  demo.request:
+    type: duration
+    tags: [route_group]
+    thresholds: { p95_ms: 200, error_rate: 0.05 }
+  demo.slow:
+    type: duration
+    thresholds: { p95_ms: 100 }
+  demo.hits:
+    type: counter
+  demo.idle:
+    type: counter
+  demo.never:
+    type: gauge
+  demo.queue.backlog:
+    type: gauge
+    tags: [queue_profile]
+  demo_long_metric_identifier_for_sizes.second_segment_with_many_letters_abc.third_segment_with_many_letters_xyz.fourth_segment_with_many_letters_qrs:
+    type: counter
+    tags:
+      - alpha_tag_key_with_a_long_descriptive_nm
+      - bravo_tag_key_with_a_long_descriptive_nm
+      - charlie_tag_key_with_a_long_descript_nm
+      - delta_tag_key_with_a_long_descriptive_nm
+      - echo_tag_key_with_a_long_descriptive_nam
+      - foxtrot_tag_key_with_a_long_descript_nm
+      - golf_tag_key_with_a_long_descriptive_nam
+      - hotel_tag_key_with_a_long_descriptive_nm
+  Not A Metric:
+    type: counter
+  demo.bad_type:
+    type: timer

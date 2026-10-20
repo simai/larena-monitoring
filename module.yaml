@@ -1,8 +1,8 @@
 package: larena/monitoring
 title: Larena Monitoring
-status: repository_prepared
+status: coding_started
 cluster: ai-mcp-automation
-batch: batch-0-clean-pre-codegen-baseline
+batch: monitoring-metrics
 features:
   - monitoring.admin_dashboard
   - monitoring.health_checks
@@ -14,4 +14,4 @@ runtime:
   php: "^8.3"
   laravel: "^13.0"
 evidence:
-  path: docs/project-management/evidence/ai-mcp-automation/batch-0/monitoring-clean-baseline/
+  path: docs/project-management/evidence/monitoring-metrics/
