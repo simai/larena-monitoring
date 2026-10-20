@@ -26,6 +26,12 @@ $rows = $metrics->measure('storage.query', fn () => $query->get(), ['operation' 
   it is counted as `monitoring.write_failed`.
 - `LARENA_MONITORING=false` switches recording off (`NullMetrics`); so do absent tables.
 
+Request timing: `Larena\Monitoring\Http\RequestTimingMiddleware` records `http.request` (duration, threshold
+p95 500 ms, error share 5%) when the response has been sent, with tags `route` (the route name as a code,
+`unnamed` without one — never the URI or its parameters), `method`, `status_class` (`http_2xx` … `http_5xx`; tag
+values must start with a letter) and `outcome` (`error` for 5xx). The application appends it as global middleware
+in `bootstrap/app.php`: `$middleware->append(\Larena\Monitoring\Http\RequestTimingMiddleware::class);`.
+
 Scheduled commands: `larena:monitoring:rollup` (every minute: minute, hour and day rollups),
 `larena:monitoring:prune` (daily: raw samples and minute rollups 7 days, hour and day rollups 90 days) and
 `larena:monitoring:report --days=7 --package= --json` with a verdict per metric: working, degraded (error share

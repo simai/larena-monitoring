@@ -83,6 +83,21 @@ final class MetricGuard
         return null;
     }
 
+    /**
+     * Turns a name (a route name, a job type) into a tag value code: lowercase, every character outside
+     * [a-z0-9_.-] replaced with '_', cut at 60 characters. A value that still is not a code — empty, not starting
+     * with a letter or looking like an identifier — becomes $fallback.
+     */
+    public static function code(?string $value, string $fallback = 'unnamed'): string
+    {
+        if ($value === null) {
+            return $fallback;
+        }
+        $code = substr((string) preg_replace('/[^a-z0-9_.-]/', '_', strtolower(trim($value))), 0, 60);
+
+        return preg_match(self::TAG_VALUE_PATTERN, $code) === 1 && !self::looksLikeIdentifier($code) ? $code : $fallback;
+    }
+
     /** Long digit runs and hex runs (ids, hashes, UUID parts) are identifiers, not codes. */
     private static function looksLikeIdentifier(string $value): bool
     {

@@ -7,3 +7,10 @@ metrics:
   monitoring.write_failed:
     type: counter
     retention: { raw: 7d, aggregate: 90d }
+  # Recorded by Http\RequestTimingMiddleware when the response has been sent. route is the route NAME code
+  # ('unnamed' without one), never the URI or its parameters.
+  http.request:
+    type: duration
+    tags: [route, method, status_class]
+    thresholds: { p95_ms: 500, error_rate: 0.05 }
+    retention: { raw: 7d, aggregate: 90d }

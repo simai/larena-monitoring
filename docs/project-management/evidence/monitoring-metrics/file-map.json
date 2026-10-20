@@ -34,6 +34,7 @@
     "src/Enums/IncidentState.php",
     "src/Enums/MetricType.php",
     "src/Enums/Severity.php",
+    "src/Http/RequestTimingMiddleware.php",
     "src/Providers/MonitoringServiceProvider.php",
     "src/Runtime/BufferedMetrics.php",
     "src/Runtime/MetricCatalog.php",
@@ -48,10 +49,13 @@
     "tests/Feature/MetricsKillSwitchTest.php",
     "tests/Feature/MetricsRuntimeTest.php",
     "tests/Feature/MonitoringAccessOperationsTest.php",
+    "tests/Feature/RequestTimingKillSwitchTest.php",
+    "tests/Feature/RequestTimingMiddlewareTest.php",
     "tests/Fixtures/demo-monitoring.yaml",
     "tests/TestCase.php",
     "tests/Unit/Metrics/BufferedMetricsTest.php",
     "tests/Unit/Metrics/MetricGuardTest.php",
+    "tests/Unit/Metrics/RequestTimingTagsTest.php",
     "tests/Unit/MonitoringContractTest.php",
     "tests/Unit/MonitoringFailsClosedTest.php"
   ]

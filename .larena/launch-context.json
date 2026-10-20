@@ -43,6 +43,7 @@
     "src/Enums/IncidentState.php",
     "src/Enums/MetricType.php",
     "src/Enums/Severity.php",
+    "src/Http/RequestTimingMiddleware.php",
     "src/Providers/MonitoringServiceProvider.php",
     "src/Runtime/BufferedMetrics.php",
     "src/Runtime/MetricCatalog.php",
@@ -57,10 +58,13 @@
     "tests/Feature/MetricsKillSwitchTest.php",
     "tests/Feature/MetricsRuntimeTest.php",
     "tests/Feature/MonitoringAccessOperationsTest.php",
+    "tests/Feature/RequestTimingKillSwitchTest.php",
+    "tests/Feature/RequestTimingMiddlewareTest.php",
     "tests/Fixtures/demo-monitoring.yaml",
     "tests/TestCase.php",
     "tests/Unit/Metrics/BufferedMetricsTest.php",
     "tests/Unit/Metrics/MetricGuardTest.php",
+    "tests/Unit/Metrics/RequestTimingTagsTest.php",
     "tests/Unit/MonitoringContractTest.php",
     "tests/Unit/MonitoringFailsClosedTest.php"
   ],
@@ -70,7 +74,6 @@
     "src/Admin/*",
     "src/Collectors/*",
     "src/Export/*",
-    "src/Http/*",
     "src/Notifications/*"
   ],
   "forbidden_behavior": [
@@ -94,5 +97,8 @@
   "next_transition": "review",
   "repository_reset_pre_codegen": true,
   "repository_created_locally": true,
-  "remote_push_status": "not_attempted_current_batch_github_cli_not_authenticated"
+  "remote_push_status": "not_attempted_current_batch_github_cli_not_authenticated",
+  "owner_decisions": [
+    "phase 2 (owner, 2026-10-20: «метрики по образцу Федерации — запросы, очередь, фронтенд»): src/Http/RequestTimingMiddleware.php records http.request at terminate with code-only tags route (route name code), method, status_class, outcome; Root appends it as global middleware; no routes or controllers"
+  ]
 }
