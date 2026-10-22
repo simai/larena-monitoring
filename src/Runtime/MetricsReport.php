@@ -11,8 +11,10 @@ use Throwable;
 
 /**
  * The metrics report for the last N days, built from rollups: closed hours from hour rollups, the rest of the
- * window from minute rollups. Count, errors, sum, min and max are exact; p50 and p95 are the count-weighted means
- * of the bucket p50 and p95 values (an approximation, the same for both). `last_event_at` is the newest raw sample
+ * window from minute rollups, and the raw samples no rollup holds yet (written after the newest minute bucket, or
+ * all of the window's samples while no rollup has run), so a metric with a last event is never reported as unused.
+ * Count, errors, sum, min and max are exact; p50 and p95 are the count-weighted means of the bucket p50 and p95
+ * values (an approximation, the same for both; the raw part counts as one bucket). `last_event_at` is the newest raw sample
  * time or rollup bucket start of the metric over all kept data (not only the window), UTC ISO-8601, or null.
  * Every declared metric gets a verdict (see MetricVerdicts).
  */
@@ -98,6 +100,48 @@ final class MetricsReport
         ];
     }
 
+    /** How many raw values of one metric the report reads for its p50 and p95; the counts are always exact. */
+    private const int RAW_VALUES = 20_000;
+
+    /**
+     * The raw samples of [from, to] per metric, as a rollup bucket counts them: events (a counter's samples summed),
+     * errors (outcome error or timeout), sum, min, max and the values of a timing or gauge.
+     *
+     * @return array<string, array{count: int, errors: int, sum: float, min: float, max: float, values: list<float>}>
+     */
+    private function raw(Connection $db, int $from, int $to): array
+    {
+        if ($from >= $to) {
+            return [];
+        }
+        $metrics = [];
+        $rows = $db->table(SampleWriter::TABLE)
+            ->select(['id', 'metric_id', 'type', 'value', 'tags_json'])
+            ->where('recorded_at', '>=', RollupBuilder::format($from))
+            ->where('recorded_at', '<=', RollupBuilder::format($to))
+            ->lazyById(2000);
+        foreach ($rows as $row) {
+            $id = (string) $row->metric_id;
+            $value = (float) $row->value;
+            $counter = $row->type === 'counter';
+            $events = $counter ? (int) round($value) : 1;
+            $tags = (string) $row->tags_json;
+            $failed = str_contains($tags, '"outcome":"error"') || str_contains($tags, '"outcome":"timeout"');
+            $metric = $metrics[$id] ?? ['count' => 0, 'errors' => 0, 'sum' => 0.0, 'min' => $value, 'max' => $value, 'values' => []];
+            $metric['count'] += $events;
+            $metric['errors'] += $failed ? $events : 0;
+            $metric['sum'] += $value;
+            $metric['min'] = min($metric['min'], $value);
+            $metric['max'] = max($metric['max'], $value);
+            if (!$counter && count($metric['values']) < self::RAW_VALUES) {
+                $metric['values'][] = $value;
+            }
+            $metrics[$id] = $metric;
+        }
+
+        return $metrics;
+    }
+
     /**
      * @return array{0: array<string, array{count: int, errors: int, sum: float, min: ?float, max: ?float, p50: ?float, p95: ?float}>, 1: array<string, int>}
      */
@@ -147,6 +191,28 @@ final class MetricsReport
                     'p95_count' => $current['p95_count'] + (int) $row->p95_count,
                 ];
             }
+        }
+
+        // The raw samples after the newest built minute: events the rollup has not reached yet (it waits for a bucket
+        // to close, or does not run at all) are counted from the samples themselves.
+        $lastMinute = $db->table(RollupBuilder::TABLE)->where('period', 'm')->max('bucket_start');
+        $rawFrom = max($from, $boundary, is_string($lastMinute) && $lastMinute !== '' ? RollupBuilder::timestamp($lastMinute) + 60 : $from);
+        foreach ($this->raw($db, $rawFrom, $now) as $id => $row) {
+            $current = $acc[$id] ?? ['count' => 0, 'errors' => 0, 'sum' => 0.0, 'min' => null, 'max' => null, 'p50_weight' => 0.0, 'p50_count' => 0, 'p95_weight' => 0.0, 'p95_count' => 0];
+            $timed = $row['values'] !== [];
+            $values = $row['values'];
+            sort($values);
+            $acc[$id] = [
+                'count' => $current['count'] + $row['count'],
+                'errors' => $current['errors'] + $row['errors'],
+                'sum' => $current['sum'] + $row['sum'],
+                'min' => $current['min'] === null ? $row['min'] : min($current['min'], $row['min']),
+                'max' => $current['max'] === null ? $row['max'] : max($current['max'], $row['max']),
+                'p50_weight' => $current['p50_weight'] + ($timed ? (float) RollupBuilder::percentile($values, 0.50) * $row['count'] : 0.0),
+                'p50_count' => $current['p50_count'] + ($timed ? $row['count'] : 0),
+                'p95_weight' => $current['p95_weight'] + ($timed ? (float) RollupBuilder::percentile($values, 0.95) * $row['count'] : 0.0),
+                'p95_count' => $current['p95_count'] + ($timed ? $row['count'] : 0),
+            ];
         }
 
         $stats = [];

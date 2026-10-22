@@ -265,6 +265,40 @@ final class MetricsRuntimeTest extends TestCase
         self::assertSame(32.5, $row['p50']);
     }
 
+    public function test_events_the_rollup_has_not_reached_are_counted_from_raw_samples_once(): void
+    {
+        // QA 2026-10-22: a metric showed «0 events, unused, p50 —» beside a last event, because the counts read the
+        // rollups only and the rollup had not run since. The samples no rollup holds yet are counted as they are.
+        $this->travelTo(Carbon::parse('2026-10-19 10:00:10', 'UTC'));
+        for ($i = 0; $i < 4; $i++) {
+            $this->metrics()->timing('demo.request', 20.0, ['outcome' => $i === 0 ? 'error' : 'ok']);
+        }
+        $this->metrics()->count('demo.hits', 3, ['outcome' => 'ok']);
+        $this->flush();
+
+        $now = Carbon::parse('2026-10-19 10:00:30', 'UTC');
+        $row = $this->reportRow('demo.request', $now);
+        self::assertSame(4, $row['count']);
+        self::assertSame(0.25, $row['error_share']);
+        self::assertSame(20.0, (float) $row['p50']);
+        self::assertSame('2026-10-19T10:00:10Z', $row['last_event_at']);
+        self::assertNotSame('unused', $row['verdict']);
+        self::assertSame(3, $this->reportRow('demo.hits', $now)['count']);
+        self::assertNull($this->reportRow('demo.hits', $now)['p50']);
+
+        // Once the minute is rolled up, newer samples join it and nothing is counted twice.
+        $this->travelTo(Carbon::parse('2026-10-19 10:05:00', 'UTC'));
+        $this->app->make(RollupBuilder::class)->run();
+        $this->metrics()->timing('demo.request', 60.0, ['outcome' => 'ok']);
+        $this->flush();
+        $row = $this->reportRow('demo.request', Carbon::parse('2026-10-19 10:05:00', 'UTC'));
+        self::assertSame(5, $row['count']);
+        self::assertSame(1, $row['errors']);
+        // Bucket p50 20 over 4 events and the raw part 60 over 1 → (20*4 + 60) / 5.
+        self::assertSame(28.0, $row['p50']);
+        self::assertSame('2026-10-19T10:05:00Z', $row['last_event_at']);
+    }
+
     /** @return array<string, mixed> */
     private function reportRow(string $id, Carbon $now): array
     {
