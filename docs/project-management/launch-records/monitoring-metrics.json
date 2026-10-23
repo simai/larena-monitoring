@@ -68,7 +68,12 @@
     "tests/Unit/Metrics/MetricGuardTest.php",
     "tests/Unit/Metrics/RequestTimingTagsTest.php",
     "tests/Unit/MonitoringContractTest.php",
-    "tests/Unit/MonitoringFailsClosedTest.php"
+    "tests/Unit/MonitoringFailsClosedTest.php",
+    "LICENSE",
+    "NOTICE",
+    "AUTHORS",
+    "CITATION.cff",
+    "REUSE.toml"
   ],
   "forbidden_files": [
     "routes/*",
