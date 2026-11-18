@@ -3,5 +3,5 @@
 declare(strict_types=1);
 
 return [
-    'dashboard_read' => 'Просмотр мониторинга',
+    'dashboard_read' => 'Просматривать мониторинг',
 ];

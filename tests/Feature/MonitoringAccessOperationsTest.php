@@ -29,7 +29,7 @@ final class MonitoringAccessOperationsTest extends TestCase
     {
         $translator = $this->app->make('translator');
 
-        self::assertSame('Просмотр мониторинга', $translator->get('larena-monitoring::operations.dashboard_read', [], 'ru'));
+        self::assertSame('Просматривать мониторинг', $translator->get('larena-monitoring::operations.dashboard_read', [], 'ru'));
         self::assertSame('View monitoring', $translator->get('larena-monitoring::operations.dashboard_read', [], 'en'));
     }
 
