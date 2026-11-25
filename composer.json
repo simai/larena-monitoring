@@ -39,10 +39,12 @@
     "lint": "php scripts/lint.php",
     "analyse": "php vendor/bin/phpstan analyse --configuration=phpstan.neon.dist --no-progress --memory-limit=512M",
     "validate:larena": "php scripts/validate-larena-package.php",
+    "delivery:check": "php scripts/check-delivery-manifest.php",
     "evidence:check": "php scripts/check-evidence.php",
     "scope:check": "php tools/larena-scope-check.php",
     "quality:gate": [
       "@validate:larena",
+      "@delivery:check",
       "@lint",
       "@analyse",
       "@test",

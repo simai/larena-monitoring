@@ -71,7 +71,8 @@
     "NOTICE",
     "AUTHORS",
     "CITATION.cff",
-    "REUSE.toml"
+    "REUSE.toml",
+    "scripts/check-delivery-manifest.php"
   ],
   "forbidden_files": [
     "routes/*",

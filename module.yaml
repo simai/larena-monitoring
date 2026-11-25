@@ -15,3 +15,15 @@ runtime:
   laravel: "^13.0"
 evidence:
   path: docs/project-management/evidence/monitoring-metrics/
+delivery:
+  publisher: simai
+  distribution: open
+  license: Apache-2.0
+  requires:
+    larena: dev-main
+    packages: {}
+  capabilities:
+    - larena.capability.monitoring.base
+  requires_capabilities: []
+  data_on_removal: kept_read_only
+  migrations_reversible: true
